@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Route, Routes } from "react-router-dom";
+import NotFound from "./components/not-found";
 
 // Auto generates routes from files under ./pages
 // https://vitejs.dev/guide/features.html#glob-import
@@ -21,6 +22,7 @@ export default function Router() {
             {routes.map(({ path, component: RouteComp }) => {
                 return <Route key={path} path={path} element={<RouteComp />} />;
             })}
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }
