@@ -6,10 +6,11 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { PlaceController } from './place/place.controller';
 import { PlaceService } from './place/place.service';
+import { ParkingService } from './parking/parking.service';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule],
   controllers: [AppController, PlaceController],
-  providers: [AppService, PrismaService, PlaceService],
+  providers: [AppService, PrismaService, PlaceService, ParkingService],
 })
 export class AppModule {}
