@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { ConflictException, Controller, Get } from '@nestjs/common';
 import { PlaceService } from './place.service';
 
 @Controller('place')
@@ -9,7 +9,7 @@ export class PlaceController {
   async getTicket() {
     const place = await this.placeService.GetTicket();
 
-    if (!place) return { error: 'No available place' };
+    if (!place) throw new ConflictException('No available place');
 
     return { ticketId: place.ticket, placeId: place.id };
   }

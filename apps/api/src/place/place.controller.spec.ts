@@ -3,6 +3,7 @@ import { PlaceController } from './place.controller';
 import { PlaceService } from './place.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { randomUUID } from 'node:crypto';
+import { ConflictException } from '@nestjs/common';
 
 describe('PlaceController', () => {
   let controller: PlaceController;
@@ -38,9 +39,11 @@ describe('PlaceController', () => {
     it('should return an error if no available place', async () => {
       jest.spyOn(service, 'GetTicket').mockResolvedValue(null);
 
-      const result = await controller.getTicket();
+      const result = controller.getTicket();
 
-      expect(result).toEqual({ error: 'No available place' });
+      expect(result).rejects.toThrow(
+        new ConflictException('No available place'),
+      );
     });
   });
 });
