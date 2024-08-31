@@ -1,71 +1,88 @@
-import fs from 'node:fs/promises'
-import express from 'express'
+/* global process */
+/* eslint-disable no-console */
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import express from "express";
 
-// Constants
-const isProduction = process.env.NODE_ENV === 'production'
-const port = process.env.PORT || 5173
-const base = process.env.BASE || '/'
+const port = process.env.PORT || 5173;
+const base = process.env.BASE || "/";
 
-// Cached production assets
-const templateHtml = isProduction
-  ? await fs.readFile('./dist/client/index.html', 'utf-8')
-  : ''
-const ssrManifest = isProduction
-  ? await fs.readFile('./dist/client/.vite/ssr-manifest.json', 'utf-8')
-  : undefined
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const resolve = (p) => path.resolve(__dirname, p);
 
-// Create http server
-const app = express()
+export async function createServer(
+    root = process.cwd(),
+    isProduction = process.env.NODE_ENV === "production",
+    hmrPort
+) {
+    const templateHtml = isProduction ? await fs.readFile(resolve("dist/client/index.html"), "utf8") : "";
+    const ssrManifest = isProduction
+        ? await fs.readFile(resolve("dist/client/.vite/ssr-manifest.json"), "utf8")
+        : undefined;
 
-// Add Vite or respective production middlewares
-let vite
-if (!isProduction) {
-  const { createServer } = await import('vite')
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: 'custom',
-    base
-  })
-  app.use(vite.middlewares)
-} else {
-  const compression = (await import('compression')).default
-  const sirv = (await import('sirv')).default
-  app.use(compression())
-  app.use(base, sirv('./dist/client', { extensions: [] }))
-}
+    const app = express();
 
-// Serve HTML
-app.use('*', async (req, res) => {
-  try {
-    const url = req.originalUrl.replace(base, '')
-
-    let template
-    let render
-    if (!isProduction) {
-      // Always read fresh template in development
-      template = await fs.readFile('./index.html', 'utf-8')
-      template = await vite.transformIndexHtml(url, template)
-      render = (await vite.ssrLoadModule('/src/entry-server.tsx')).render
+    /**
+     * @type {import('vite').ViteDevServer}
+     */
+    let vite;
+    if (isProduction) {
+        const compression = (await import("compression")).default;
+        const sirv = (await import("sirv")).default;
+        app.use(compression());
+        app.use(base, sirv("./dist/client", { extensions: [] }));
     } else {
-      template = templateHtml
-      render = (await import('./dist/server/entry-server.js')).render
+        vite = await (
+            await import("vite")
+        ).createServer({
+            root,
+            server: {
+                middlewareMode: true,
+                watch: {
+                    usePolling: true,
+                    interval: 100,
+                },
+                hmr: {
+                    port: hmrPort,
+                },
+            },
+            appType: "custom",
+            base,
+        });
+        app.use(vite.middlewares);
     }
 
-    const rendered = await render(url, ssrManifest)
+    app.use("*", async (req, res) => {
+        try {
+            const url = req.originalUrl;
 
-    const html = template
-      .replace(`<!--app-head-->`, rendered.head ?? '')
-      .replace(`<!--app-html-->`, rendered.html ?? '')
+            let template;
+            let render;
+            if (isProduction) {
+                template = templateHtml;
+                // eslint-disable-next-line import/extensions
+                render = (await import("./dist/server/entry-server.js")).render;
+            } else {
+                template = await fs.readFile(resolve("index.html"), "utf8");
+                template = await vite.transformIndexHtml(url, template);
+                render = (await vite.ssrLoadModule("/src/entry-server.tsx")).render;
+            }
 
-    res.status(200).set({ 'Content-Type': 'text/html' }).send(html)
-  } catch (e) {
-    vite?.ssrFixStacktrace(e)
-    console.log(e.stack)
-    res.status(500).end(e.stack)
-  }
-})
+            const rendered = await render(url, ssrManifest);
 
-// Start http server
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`)
-})
+            const html = template.replace(`<!--app-html-->`, rendered);
+
+            res.status(200).set({ "Content-Type": "text/html" }).send(html);
+        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            !isProduction && vite.ssrFixStacktrace(error);
+            console.log(error.stack);
+            res.status(500).end(error.stack);
+        }
+    });
+    return { app, vite };
+}
+
+// eslint-disable-next-line unicorn/prefer-top-level-await, github/no-then
+createServer().then(({ app }) => app.listen(port, () => console.log(`http://localhost:${port}`)));
