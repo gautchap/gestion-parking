@@ -34,6 +34,7 @@
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
     "@repo/eslint-config": "workspace:*",
+    "@repo/schemas": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@swc/cli": "^0.4.0",
     "@swc/core": "^1.7.22",
