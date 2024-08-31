@@ -1,0 +1,7 @@
+{
+  "extends": ["@repo/eslint-config/server.json"],
+  "root": true,
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
