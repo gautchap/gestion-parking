@@ -43,4 +43,28 @@ export class PlaceService {
 
     return updatePlace;
   }
+
+  async RemoveTicket({
+    ticketId,
+    placeId,
+  }: {
+    ticketId: string;
+    placeId: number;
+  }): Promise<Place | null> {
+    try {
+      return await this.prismaService.place.update({
+        where: {
+          id: placeId,
+          ticket: ticketId,
+        },
+        data: {
+          free: true,
+          ticket: null,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }

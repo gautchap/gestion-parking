@@ -65,4 +65,40 @@ describe('PlaceService', () => {
       expect(result).toEqual(updatedPlace);
     });
   });
+  describe('RemoveTicket', () => {
+    it('should return null if placeId or ticketId are wrong', async () => {
+      const ticketId = randomUUID().toString();
+      const placeId = 1;
+      jest.spyOn(prismaService.place, 'update').mockResolvedValueOnce(null);
+
+      const result = await service.RemoveTicket({ ticketId, placeId });
+
+      expect(result).toBeNull();
+    });
+
+    it('should update the place and remove the ticket', async () => {
+      const ticketId = randomUUID().toString();
+      const placeId = 1;
+      const place = {
+        id: placeId,
+        free: false,
+        ticket: ticketId,
+        parkingId: randomUUID().toString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedPlace = {
+        ...place,
+        free: true,
+        ticket: null,
+      };
+      jest
+        .spyOn(prismaService.place, 'update')
+        .mockResolvedValueOnce(updatedPlace);
+
+      const result = await service.RemoveTicket({ ticketId, placeId });
+
+      expect(result).toEqual(updatedPlace);
+    });
+  });
 });
