@@ -75,21 +75,6 @@ importers:
       '@types/supertest':
         specifier: ^6.0.0
         version: 6.0.2
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^8.0.0
-        version: 8.3.0(@typescript-eslint/parser@8.3.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)
-      '@typescript-eslint/parser':
-        specifier: ^8.0.0
-        version: 8.3.0(eslint@8.57.0)(typescript@5.4.5)
-      eslint:
-        specifier: ^8.42.0
-        version: 8.57.0
-      eslint-config-prettier:
-        specifier: ^9.0.0
-        version: 9.1.0(eslint@8.57.0)
-      eslint-plugin-prettier:
-        specifier: ^5.0.0
-        version: 5.2.1(@types/eslint@8.56.5)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.2.5)
       jest:
         specifier: ^29.5.0
         version: 29.7.0(@types/node@20.11.24)(ts-node@10.9.1(@swc/core@1.7.22)(@types/node@20.11.24)(typescript@5.4.5))
