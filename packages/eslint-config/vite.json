@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+
+    "extends": [
+        "plugin:tailwindcss/recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:github/recommended",
+        "plugin:unicorn/recommended"
+    ],
+    "plugins": ["@typescript-eslint", "github", "unicorn"],
+    "ignorePatterns": [".*.js", "node_modules/", "dist/"],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    },
+    "rules": {
+        "unicorn/filename-case": "off",
+        "unicorn/prevent-abbreviations": [
+            "error",
+            { "replacements": { "e": false, "res": false, "req": false, "props": false, "env": false, "ref": false } }
+        ],
+        "unicorn/no-await-expression-member": "off",
+        "prettier/prettier": 0,
+        "react/react-in-jsx-scope": "off",
+        "filenames/match-regex": 0,
+        "camelcase": 0,
+        "i18n-text/no-en": 0,
+        "eslint-comments/no-use": 0,
+        "unicorn/no-null": 0,
+        "unicorn/no-array-reduce": 0,
+        "react/display-name": 0,
+        "unicorn/no-new-array": 0
+    }
+}
