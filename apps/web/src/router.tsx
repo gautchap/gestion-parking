@@ -4,7 +4,6 @@ import NotFound from "./components/not-found";
 import NavBar from "./components/nav-bar";
 import { globalStore } from "./store/global-store";
 import { Provider } from "react-redux";
-import { ClientContext } from "./context/client-context";
 
 // Auto generates routes from files under ./pages
 // https://vitejs.dev/guide/features.html#glob-import
@@ -22,18 +21,16 @@ const routes = Object.keys(pages).map((path) => {
 
 export default function Router() {
     return (
-        <ClientContext>
-            <Provider store={globalStore}>
-                <div className="container mx-auto max-w-screen-xl">
-                    <NavBar routes={routes} />
-                    <Routes>
-                        {routes.map(({ path, component: RouteComp }) => {
-                            return <Route key={path} path={path} element={<RouteComp />} />;
-                        })}
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </div>
-            </Provider>
-        </ClientContext>
+        <Provider store={globalStore}>
+            <div className="container mx-auto max-w-screen-xl">
+                <NavBar routes={routes} />
+                <Routes>
+                    {routes.map(({ path, component: RouteComp }) => {
+                        return <Route key={path} path={path} element={<RouteComp />} />;
+                    })}
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </div>
+        </Provider>
     );
 }
