@@ -22,7 +22,7 @@ const routes = Object.keys(pages).map((path) => {
 export default function Router() {
     return (
         <Provider store={globalStore}>
-            <div className="container mx-auto max-w-screen-xl">
+            <div className="container mx-auto max-w-screen-lg">
                 <NavBar routes={routes} />
                 <Routes>
                     {routes.map(({ path, component: RouteComp }) => {
