@@ -15,7 +15,7 @@
             "dependsOn": ["^build:prod"],
             "inputs": ["$TURBO_DEFAULT$", ".env*"],
             "outputs": ["dist/**"],
-            "env": ["VITE_API_URL", "DATABASE_URL", "DIRECT_URL"]
+            "env": ["DATABASE_URL", "DIRECT_URL"]
         },
         "lint": { "dependsOn": ["^lint"] },
         "dev": {
