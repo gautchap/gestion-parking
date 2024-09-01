@@ -6,7 +6,7 @@ export class ParkingService {
   constructor(private readonly prismaService: PrismaService) {}
   async GetParking() {
     try {
-      const parking = await this.prismaService.parking.findFirst({
+      return await this.prismaService.parking.findFirst({
         include: {
           places: {
             select: {
@@ -17,7 +17,6 @@ export class ParkingService {
           },
         },
       });
-      return parking;
     } catch (error) {
       console.log(error);
       return null;
