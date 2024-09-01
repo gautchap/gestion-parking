@@ -5,6 +5,7 @@
     "types": "./dist/index.d.ts",
     "type": "commonjs",
     "scripts": {
+        "build:prod": "npm run build",
         "build": "tsc",
         "dev": "tsc -w"
     },
