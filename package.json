@@ -7,6 +7,7 @@
         "dev": "turbo dev",
         "lint": "turbo lint",
         "start": "turbo start",
+        "start:prod": "node apps/api/dist/main",
         "format": "prettier --write \"**/*.{ts,tsx,md}\""
     },
     "devDependencies": {
