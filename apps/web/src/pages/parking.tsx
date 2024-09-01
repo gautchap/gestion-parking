@@ -1,25 +1,11 @@
-import { useEffect } from "react";
-import { getParking } from "../services/parking.service";
-import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
-import { addParking } from "../reducer/parkingSlice";
+import { useAppSelector } from "../hooks/redux-hooks";
 import Place from "../components/place";
+import useParking from "../hooks/use-parking";
 
 export default function Parking() {
     const ticket = useAppSelector((state) => state.ticket.value);
-    const parking = useAppSelector((state) => state.parking.value);
-    const dispatch = useAppDispatch();
-
+    const parking = useParking();
     const places = parking?.places?.toSorted((a, b) => a.id - b.id);
-
-    useEffect(() => {
-        const controller = new AbortController();
-        (async () => {
-            const _parking = await getParking(controller.signal);
-            dispatch(addParking(_parking));
-        })();
-
-        return () => controller.abort();
-    }, []);
 
     return (
         <>
