@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { PlaceController } from './place/place.controller';
@@ -20,7 +18,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     }),
     PrismaModule,
   ],
-  controllers: [AppController, PlaceController, ParkingController],
-  providers: [AppService, PrismaService, PlaceService, ParkingService],
+  controllers: [PlaceController, ParkingController],
+  providers: [PrismaService, PlaceService, ParkingService],
 })
 export class AppModule {}
