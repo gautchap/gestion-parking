@@ -1,26 +1,28 @@
-# Turborepo starter
+# Gestion Parking
 
-This is an official starter Turborepo.
+An Parking ticketing management system
 
-## Using this example
+-   Possibility of obtaining a parking ticket with the place number
+-   Possibility of leaving the parking lot and freeing the place
+-   View all free and occupied places, with their numbers
 
-Run the following command:
+## Api Endpoints
 
-```sh
-npx create-turbo@latest
-```
+-   GET: `/parking/list` - Return a parking with a list of all places
+-   GET: `/place/getTicket` - Return an object with the id of the ticket and the id of the place
+-   PUT: `/parking/removeTicket` - Accept an object with the id of the ticket and the id of the place, return a message in success
 
 ## What's inside?
 
-This Turborepo includes the following packages/apps:
+This turborepo uses [pnpm](https://pnpm.io/) as a package manager. It includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+-   `api`: a [Nest.js](https://nestjs.com/) app
+-   `web`: a [Vite React](https://vitejs.dev/) app
+-   `@repo/eslint-config`: `eslint` configurations
+-   `@repo/typescript-config`: `tsconfig.json` configurations
+-   `@repo/schemas`: a zod schema library shared by both `web` and `api` applications
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
@@ -28,54 +30,29 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 This Turborepo has some additional tools already setup for you:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+-   [TypeScript](https://www.typescriptlang.org/) for static type checking
+-   [ESLint](https://eslint.org/) for code linting
 
 ### Build
 
 To build all apps and packages, run the following command:
 
-```
-cd my-turborepo
-pnpm build
+```sh
+pnpm build:prod
 ```
 
 ### Develop
 
 To develop all apps and packages, run the following command:
 
-```
-cd my-turborepo
+```sh
 pnpm dev
 ```
 
-### Remote Caching
+### Start
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+To start all apps and packages, run the following command:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
+```sh
+pnpm start:prod
 ```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
