@@ -12,6 +12,14 @@ An Parking ticketing management system
 -   GET: `/place/getTicket` - Return an object with the id of the ticket and the id of the place
 -   PUT: `/parking/removeTicket` - Accept an object with the id of the ticket and the id of the place, return a message in success
 
+## DB Relations
+
+The monorepo use [PostgreSQL](https://www.postgresql.org/) as database and [Prisma](https://www.prisma.io/) as ORM
+
+-   column `Ticket`
+-   column `Parking` relation one to many with `Place`
+-   column `Place` relation many to one with `Parking`
+
 ## What's inside?
 
 This turborepo uses [pnpm](https://pnpm.io/) as a package manager. It includes the following packages/apps:
