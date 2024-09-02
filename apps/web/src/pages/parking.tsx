@@ -1,6 +1,7 @@
 import { useAppSelector } from "../hooks/redux-hooks";
 import Place from "../components/place";
 import useParking from "../hooks/use-parking";
+import Title from "../components/title";
 
 export default function Parking() {
     const ticket = useAppSelector((state) => state.ticket.value);
@@ -9,6 +10,7 @@ export default function Parking() {
 
     return (
         <>
+            <Title title="Parking" />
             <table className="mx-auto border-collapse">
                 <tbody className="flex max-w-screen-md flex-wrap justify-center">
                     {places?.map((place) => <Place key={place.id} place={place} ticket={ticket} />)}
