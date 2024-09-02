@@ -1,8 +1,6 @@
 /* global RequestInit */
 import { z } from "@repo/schemas";
 
-export const apiUrl = import.meta.env.VITE_API_URL;
-
 interface RequestConfig<T> {
     data?: unknown;
     zodSchema?: z.ZodSchema<T>;
