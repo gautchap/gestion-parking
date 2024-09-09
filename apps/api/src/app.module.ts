@@ -8,10 +8,12 @@ import { ParkingService } from './parking/parking.service';
 import { ParkingController } from './parking/parking.controller';
 import { join } from 'node:path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    CacheModule.register({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../..', 'web', 'dist'),
       exclude: ['/api*'],
